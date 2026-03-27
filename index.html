@@ -1,0 +1,1132 @@
+<!-- =========================================
+AraTechnics
+Auteur: Arne (AraTechnics.be)
+========================================= -->
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AraTechnics | Web & Appdevelopment</title>
+    <meta name="description" content="Op zoek naar een moderne, responsieve website? Of een custom (web) app? AraTechnics helpt je graag verder met jouw project.">
+    <meta name="keywords" content="webdeveloper, appdevelopment, webdevelopment, website op maat, AraTechnics">
+    <meta name="author" content="Arne (AraTechnics.be)">
+
+    <!-- Favicon  -->
+    <link rel="icon" href="/assets/aratechnics-3d-no-bg.png" type="image/x-icon">
+
+
+    <style>
+    /* =========================================
+    Globale Variabelen & Reset
+    ========================================= */
+    :root {
+        --primary-color: #00ff00;
+        --secondary-color: #1a1a1a;
+        --background-color: #0d0d0d;
+        --text-color: #f0f0f0;
+        --text-color-darker: #a0a0a0;
+        --font-family: 'Roboto', sans-serif;
+        --transition-speed: 0.3s;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+    }
+
+    body {
+        font-family: var(--font-family);
+        background-color: var(--background-color);
+        color: var(--text-color);
+        font-weight: 400;
+        line-height: 1.6;
+        -webkit-user-select: none; /* Chrome, Safari, Opera */
+        -moz-user-select: none;    /* Firefox */
+        -ms-user-select: none;     /* Internet Explorer/Edge */
+        user-select: none;         /* Standaard browsers */
+    }
+
+    input, textarea {
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+    }
+
+    html {
+        scrollbar-width: thin;
+        scrollbar-color: #434343 var(--background-color);
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .section-title {
+        font-size: clamp(2rem, 5vw, 2.5rem);
+        text-align: center;
+        margin-bottom: 3rem;
+        color: var(--primary-color);
+        font-weight: 700;
+    }
+
+    .text-link {
+        color: var(--primary-color);
+        text-decoration: none;
+        position: relative;
+        font-weight: 500;
+    }
+
+    .text-link::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: var(--primary-color);
+        transform-origin: bottom right;
+        transition: transform var(--transition-speed) ease-out;
+    }
+
+    .text-link:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+
+    /* =========================================
+    Header & Navigatie
+    ========================================= */
+    #header {
+        background-color: rgba(13, 13, 13, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        transition: background-color var(--transition-speed) ease;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        height: 8vh;
+    }
+
+    .logo a {
+        color: var(--primary-color);
+        font-size: 1.8rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: color var(--transition-speed) ease;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .header-logo {
+        margin-left: -20px;
+        margin-right: 10px;
+        height: 55px;
+        width: auto;
+    }
+
+    .logo a:hover {
+        color: white;
+    }
+
+    .nav-links {
+        display: flex;
+        list-style: none;
+        align-items: center;
+    }
+
+    .nav-links li {
+        margin-left: 1.5rem;
+    }
+
+    .nav-links a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        position: relative;
+        padding-bottom: 5px;
+        white-space: nowrap;
+    }
+
+    .nav-links a::after {
+        content: "";
+        position: absolute;
+        height: 2px;
+        width: 0;
+        bottom: 0;
+        left: 0;
+        background-color: var(--primary-color);
+        transition: width var(--transition-speed) ease-in-out;
+    }
+
+    .nav-links a:hover::after, .nav-links a.active::after {
+        width: 100%;
+    }
+
+    .burger {
+        display: none;
+        cursor: pointer;
+    }
+
+    .burger div {
+        width: 25px;
+        height: 3px;
+        background-color: var(--text-color);
+        margin: 5px;
+        transition: all var(--transition-speed) ease;
+    }
+
+
+
+    /* =========================================
+    Hero Sectie
+    ========================================= */
+    .hero-section {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        perspective: 1000px;
+    }
+
+    #particle-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2; 
+        opacity: 0.5;
+    }
+
+    .hero-content {
+        z-index: 1;
+        transition: transform 0.2s ease-out;
+        transform-style: preserve-3d;
+        will-change: transform;
+        padding: 0 1rem;
+        pointer-events: none;
+    }
+
+    .hero-content > * {
+        pointer-events: auto;
+    }
+
+    .hero-title {
+        font-size: clamp(2.5rem, 8vw, 4.5rem);
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+        font-weight: 900;
+        text-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        transform: translateZ(50px);
+    }
+
+    .hero-tagline {
+        font-size: clamp(1.2rem, 4vw, 1.5rem);
+        margin-bottom: 2.5rem;
+        max-width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+        font-weight: 300;
+        transform: translateZ(20px);
+    }
+
+    .cta-button {
+        background-color: var(--primary-color);
+        color: var(--background-color);
+        padding: 1rem 2rem;
+        text-decoration: none;
+        font-weight: 700;
+        border-radius: 5px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 2px solid var(--primary-color);
+        display: inline-block;
+    }
+
+    .cta-button:hover {
+        box-shadow: 0 10px 20px rgba(0, 255, 0, 0.2);
+        background-color: transparent;
+        color: var(--primary-color);
+        transform: translateY(-5px) scale(1.05) translateZ(10px);
+    }
+
+    /* =========================================
+    Over Mij Sectie
+    ========================================= */
+    .about-section {
+        padding: 6rem 0;
+    }
+
+    .about-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 3rem;
+    }
+
+    .about-text {
+        flex: 1.5;
+    }
+
+    .about-text p {
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+        color: var(--text-color-darker);
+    }
+
+    .about-text p:first-of-type {
+        color: var(--text-color);
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
+    .about-image-wrapper {
+        flex: 1;
+        width: 100%;
+        max-width: 400px;
+        position: relative;
+        aspect-ratio: 1 / 1;
+    }
+
+    .about-image-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 2px solid var(--primary-color);
+        border-radius: 10px;
+        transition: transform var(--transition-speed) ease;
+    }
+
+    .about-image-wrapper:hover::before {
+        transform: rotate(5deg) scale(0.95);
+    }
+
+    .about-image {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 80%;
+        max-height: 80%;
+        width: auto;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 255, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .about-image-wrapper:hover .about-image {
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    @media screen and (max-width: 992px) {
+        .about-image-wrapper{
+            display: none;
+        }
+
+        .about-image{
+            max-width: 100px;
+        }
+    }
+
+    /* =========================================
+    Diensten Sectie 
+    ========================================= */
+    .services-section {
+        padding: 6rem 0;
+        background-color: var(--secondary-color);
+    }
+
+    .services-grid {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: 1fr;
+        justify-content: center;
+
+    }
+
+    /* Tablet: 2 kolommen */
+    @media screen and (min-width: 768px) {
+        .services-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    /* Desktop: 4 kolommen */
+    @media screen and (min-width: 1200px) {
+        .services-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .services-grid .service-card {
+            width: 350px;
+            flex-shrink: 0; 
+        }
+        .services-section .container {
+            max-width: 1600px;
+            width: 100%;
+        }
+    }
+
+    .service-card {
+        background-color: var(--background-color);
+        padding: 2.5rem 2rem;
+        border-radius: 10px;
+        text-align: center;
+        transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        border: 1px solid #222;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 255, 0, 0.2);
+        border-color: var(--primary-color);
+    }
+
+    .service-icon {
+        margin-bottom: 1.5rem;
+    }
+
+    .service-icon svg {
+        width: 50px;
+        height: 50px;
+        color: var(--primary-color);
+        transition: transform var(--transition-speed) ease;
+    }
+
+    .service-card:hover .service-icon svg {
+        transform: scale(1.2) rotate(10deg);
+    }
+
+    .service-card h3 {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+
+    .service-card p {
+        flex-grow: 1;
+        margin-bottom: 1.5rem;
+        color: var(--text-color-darker);
+    }
+
+    .service-btn {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .service-btn:hover {
+        background-color: var(--primary-color);
+        color: var(--background-color);
+    }
+
+
+    /* =========================================
+    Contact Sectie & Validatie
+    ========================================= */
+    .contact-section {
+        padding: 6rem 0;
+        background-color: var(--background-color);
+    }
+
+    .contact-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background-color: var(--secondary-color);
+        padding: 3rem;
+        border-radius: 15px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .contact-text {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+    }
+
+    .contact-text .section-title {
+        text-align: center;
+    }
+
+    .social-links {
+        margin-left: 48px;
+        display: flex;
+        gap: 15px;          
+        margin-top: 15px;
+        width: 100%;
+    }
+
+    .contact-text .section-title {
+        text-align: left;
+        margin-bottom: 5px;
+    }
+
+    .contact-text p {
+        margin-bottom: 2rem;
+        color: var(--text-color-darker);
+        font-size: 1.1rem;
+    }
+
+    .contact-details {
+        margin-top: auto;
+        order: 2;
+    }
+
+    .social-links {
+        justify-content: flex-start;
+        margin-top: 1.5rem;
+    }
+
+    .social-links a {
+        margin-right: 1rem;
+        display: inline-block;
+    }
+
+    .social-links svg {
+        width: 30px;
+        height: 30px;
+        color: var(--text-color-darker);
+        transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
+    }
+
+    .social-links a:hover svg {
+        color: var(--primary-color);
+        transform: scale(1.2);
+    }
+
+    .services-hub {
+        display: flex; 
+        justify-content: center;
+        gap: 2rem;
+        margin: 2rem 0;
+        width: 100%;
+    }
+
+    .hub-card {
+        background-color: var(--secondary-color);
+        padding: 1.2rem; 
+        border-radius: 8px;
+        border: 1px solid #333;
+        text-align: center;
+        width: 250px;
+        height: 220px;
+        transition: 0.3s;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .hub-card:hover {
+        border-color: var(--primary-color);
+        transform: translateY(-5px);
+    }
+
+    .hub-card h3 {
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+        font-size: 1.7rem;
+    }
+
+    .hub-card p {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        color: #a0a0a0;
+    }
+
+    .hub-btn {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .hub-btn:hover {
+        background-color: var(--primary-color);
+        color: var(--background-color);
+    }
+
+    @media screen and (max-width: 768px) {
+        .services-hub {
+            flex-direction: column; /* Zet de vakjes onder elkaar */
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .hub-card {
+            width: 100%;           /* Volledige breedte op mobiel */
+            max-width: 280px;      /* Voorkomt dat ze te breed worden */
+            height: auto;          /* Hoogte past zich aan de tekst aan */
+            min-height: 200px;     /* Behoudt de vorm */
+            padding: 1.5rem;
+        }
+    }
+
+
+    /* =========================================
+    Footer
+    ========================================= */
+    #footer {
+        padding: 3rem 0 5rem 0; /* Iets meer ruimte onderaan voor de vorm */
+        text-align: center;
+        background-color: #000;
+    }
+
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* Dit zorgt dat de teksten (Copyright, links, made by) heel dicht op elkaar staan */
+        gap: 0.5rem; 
+    }
+
+    .footer-info {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .footer-content p {
+        color: var(--text-color-darker);
+        margin: 0; /* Geen marges rondom de tekst voor strakke uitlijning */
+        font-size: 0.9rem;
+    }
+
+    .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin: 0.2rem 0; /* Heel klein beetje ruimte boven en onder de links */
+    }
+
+
+    /* =========================================
+    Scroll Animaties
+    ========================================= */
+    .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .reveal-on-scroll[data-origin="left"] {
+        transform: translateX(-50px);
+    }
+
+    .reveal-on-scroll[data-origin="right"] {
+        transform: translateX(50px);
+    }
+
+    .reveal-on-scroll.is-visible {
+        opacity: 1;
+        transform: translateY(0) translateX(0);
+    }
+
+
+    /* =========================================
+    Dark Scrollbar
+    ========================================= */
+    ::-webkit-scrollbar {
+    width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+    background: var(--background-color);
+    }
+
+    ::-webkit-scrollbar-thumb {
+    background-color: #434343;
+    border-radius: 20px;
+    border: 3px solid var(--background-color);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+    background-color: #5e5e5e;
+    }
+
+    /* =========================================
+    Responsive Design
+    ========================================= */
+    @media screen and (max-width: 992px) {
+        .contact-wrapper {
+            grid-template-columns: 1fr 1fr;
+            text-align: left;
+        }
+
+        .contact-text .section-title {
+            text-align: center;
+        }
+    }
+
+    @media screen and (max-width: 1100px) {
+
+        .nav-links {
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100vh;
+            background-color: var(--background-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 50%;
+            max-width: 300px;
+            transform: translateX(100%);
+            transition: transform 0.5s ease-in-out;
+            gap: 2rem;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+        }
+
+        .nav-links li {
+            opacity: 0;
+            margin-left: 0;
+        }
+
+        .nav-links a {
+            font-size: 1.5rem;
+        }
+
+        .burger {
+            display: block;
+            z-index: 1001;
+        }
+
+        .nav-active {
+            transform: translateX(0%);
+        }
+
+        .toggle {
+            position: fixed;
+            right: 2rem;
+        }
+        
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+
+        .about-content {
+            flex-direction: column;
+        }
+        
+        .portfolio-grid {
+            grid-template-columns: 1fr;
+            justify-items: center; 
+        }
+
+        .portfolio-item {
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .footer-content {
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        @keyframes navLinkFade {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0px); }
+        }
+    }
+    </style>
+
+    <!-- =========================================
+    SEO & Social Media Meta Tags
+    ========================================= -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.aratechnics.be/">
+    <meta property="og:title" content="AraTechnics | Web & Appdevelopment">
+    <meta property="og:description" content="Jouw partner voor Web & Appdevelopment. Laat ons samen iets unieks bouwen.">
+    <meta property="og:image" content="https://www.aratechnics.be/assets/aratechnics-3d-no-bg.png">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.aratechnics.be/">
+    <meta property="twitter:title" content="AraTechnics | Web & Appdevelopment">
+    <meta property="twitter:description" content="Jouw partner voor Web & Appdevelopment. Laat ons samen iets unieks bouwen.">
+    <meta property="twitter:image" content="https://www.aratechnics.be/assets/aratechnics-3d-no-bg.png">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "AraTechnics",
+        "url": "https://www.aratechnics.be/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.aratechnics.be/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        },
+        "hasPart": [
+            { "@type": "SiteNavigationElement", "name": "Contact", "url": "https://www.aratechnics.be/index.html#contact" }
+        ]
+    }
+    </script>
+</head>
+<body>
+
+    <!-- =========================================
+    Header
+    ========================================= -->
+    <header id="header">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="/assets/aratechnics-3d-no-bg.png" alt="AraTechnics Logo" class="header-logo">
+                <a href="index.html#hero">AraTechnics</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#hero" class="active">Home</a></li>
+                <li><a href="#about">Over mij</a></li>
+                <li><a href="#services">Diensten</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <canvas id="particle-canvas"></canvas>
+            <div class="hero-content">
+                <h1 class="hero-title reveal-on-scroll">Creatieve Oplossingen in Code</h1>
+                <p class="hero-tagline reveal-on-scroll" data-delay="100">Web & Appdevelopment die jouw ideeën tot leven brengen.</p>
+                <a href="#contact" class="cta-button reveal-on-scroll" data-delay="200">Start Jouw Project</a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <div class="container">
+                <h2 class="section-title reveal-on-scroll">Over Mij</h2>
+                <div class="about-content">
+                    <div class="about-text reveal-on-scroll" data-origin="left">
+                        <p>Hoi, ik ben Arne — de maker achter Ara Technics en AraFlow.</p>
+                        <p>Ik maak in mijn vrije tijd graag websites op maat voor vrienden en kennissen. Daarnaast maak ik ook graag web en mobiele apps. </p>
+                        <p>AraFlow is een beetje mijn uit de hand gelopen side project. In deze app maak je een offerte en factuur in seconden op de werf. Voor meer info kan je altijd naar <a href="https://www.araflow.app/" target="_blank" class="text-link">araflow.app</a> gaan.</p>
+                        <p>Bedankt dat je even langskomt en mijn werk bekijkt, ik blijf graag programmeren, ontwerpen en creëren met passie.</p>
+                    </div>
+                    <div class="about-image-wrapper reveal-on-scroll" data-origin="right">
+                        <img src="/assets/aratechnics-3d-no-bg.png" alt="Logo AraTechnics" class="about-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="services-section">
+            <div class="container">
+                <h2 class="section-title reveal-on-scroll">Wat Ik Bied</h2>
+                <div class="services-grid">
+                    <div class="service-card reveal-on-scroll">
+                        <div class="service-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                        </div>
+                        <h3>Webdevelopment</h3>
+                        <p>Moderne, snelle en responsieve websites op maat. Volledig afgestemd op jouw wensen en doelen.</p>
+                        <a class="service-btn">Comming Soon</a>
+                    </div>
+                    <div class="service-card reveal-on-scroll">
+                        <div class="service-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                        </div>
+                        <h3>Appdevelopment</h3>
+                        <p>Volledig custom (web)apps die dat jouw leven kunnen veranderen. Volledig hoe jij het wilt!</p>
+                        <a class="service-btn">Comming Soon</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <div class="contact-wrapper reveal-on-scroll">
+                    <div class="contact-text">
+
+                        <h2 class="section-title">Klaar om iets te creëren?</h2>
+                        <p>Laten we samenwerken. Stuur me een bericht over je idee, project of vraag en ik neem zo snel mogelijk contact met je op.</p>
+
+                        <div class="services-hub">
+                            <div class="hub-card">
+                                <h3>Websites</h3>
+                                <p>Ontdek hoe we jouw droomwebsite realiseren.</p>
+                                <a class="hub-btn">Comming Soon</a>
+                            </div>
+                            <div class="hub-card">
+                                <h3>Apps</h3>
+                                <p>Jouw concept, vertaald naar mobiel.</p>
+                                <a class="hub-btn">Comming Soon</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-details">
+                            <p>
+                                <strong>Email:</strong> <a href="mailto:info@aratechnics.be" id="contact-email" class="text-link"><span>info@aratechnics.be</span></a> <br>
+                                <strong>Telefoonnummer:</strong> <a href="tel:0469400809" id="phone-link" class="text-link"><span>0469 40 08 09</span></a>
+                            </p>
+                            <div class="social-links">
+                                <a href="https://www.facebook.com/profile.php?id=61582954760615#" target="_blank" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v7.034C18.343 21.128 22 16.991 22 12z"/></svg></a>
+                                <a href="https://www.instagram.com/aratechnics" target="_blank" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.058 1.644-.07 4.85-.07zm0-2.163C8.74 0 8.333.012 7.053.072 2.695.272.273 2.69.073 7.052.012 8.333 0 8.74 0 12s.012 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98C8.333 23.988 8.74 24 12 24s3.667-.012 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.06-1.28.072-1.687.072-4.947s-.012-3.667-.072-4.947c-.197-4.358-2.62-6.78-6.979-6.98C15.667.012 15.26 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z"/></svg></a>
+                                <a href="https://www.tiktok.com/@aratechnics" target="_blank" aria-label="TikTok"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 3 3 0 0 1 1.04.17V7.15a6.45 6.45 0 0 0-1.45-.17 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V7.5a8.17 8.17 0 0 0 3.39 1.12v-3.45z"/></svg></a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; <span id="year">2026</span> AraTechnics. Alle rechten voorbehouden.</p>
+                <div class="footer-links">
+                    <a href="/privacy.html" class="text-link">Privacybeleid</a>
+                    <a href="/terms.html" class="text-link">Algemene Voorwaarden</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+        <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            /* --- Scroll-in Animaties --- */
+            const scrollObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = parseInt(entry.target.dataset.delay) || 0;
+                        setTimeout(() => { entry.target.classList.add('is-visible'); }, delay);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => scrollObserver.observe(el));
+
+            /* --- Active Link Highlighter  --- */
+            const sections = document.querySelectorAll('section');
+            const scrollNavLinks = document.querySelectorAll('.nav-links a');
+
+            window.addEventListener('scroll', () => {
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= (sectionTop - 200)) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+
+                scrollNavLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const href = link.getAttribute('href');
+
+                    if (window.scrollY < 100) {
+                        if (href.includes('#hero')) {
+                            link.classList.add('active');
+                        }
+                    } 
+                    else if (currentSection && href.includes('#' + currentSection)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            /* --- Mobiele Navigatie --- */
+            const burger = document.querySelector('.burger');
+            const nav = document.querySelector('.nav-links');
+            const navLinks = document.querySelectorAll('.nav-links li');
+            const body = document.querySelector('body');
+            
+            if (burger) {
+                burger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    body.style.overflow = nav.classList.contains('nav-active') ? 'hidden' : 'auto';
+                    navLinks.forEach((link, index) => {
+                        link.style.animation = link.style.animation ? '' : `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
+                    });
+                    burger.classList.toggle('toggle');
+                });
+            }
+
+        });
+
+        /* =========================================
+        HERO PARTICLE CANVAS ANIMATION
+        ========================================= */
+
+        const canvas = document.getElementById('particle-canvas');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouse = { x: null, y: null };
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 1; 
+                    this.speedX = (Math.random() * 2 - 1) * 0.1; 
+                    this.speedY = (Math.random() * 2 - 1) * 0.1;
+                    this.color = 'rgba(0, 255, 0, 0.5)'; 
+                }
+
+                update() {
+                    if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+                    if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                }
+
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function init() {
+                particles = [];
+                let numberOfParticles = window.innerWidth < 768 ? 50 : 120;
+                for (let i = 0; i < numberOfParticles; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function connect() {
+                let opacityValue = 1;
+                for (let a = 0; a < particles.length; a++) {
+                    for (let b = a; b < particles.length; b++) {
+                        let distance = Math.sqrt(
+                            (particles[a].x - particles[b].x) * (particles[a].x - particles[b].x) +
+                            (particles[a].y - particles[b].y) * (particles[a].y - particles[b].y)
+                        );
+
+                        if (distance < 120) {
+                            opacityValue = 1 - (distance / 120);
+                            ctx.strokeStyle = `rgba(0, 255, 0, ${opacityValue * 0.5})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[a].x, particles[a].y);
+                            ctx.lineTo(particles[b].x, particles[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                
+                if (mouse.x !== null && mouse.y !== null) {
+                    for (let i = 0; i < particles.length; i++) {
+                        let distance = Math.sqrt(
+                            (particles[i].x - mouse.x) * (particles[i].x - mouse.x) +
+                            (particles[i].y - mouse.y) * (particles[i].y - mouse.y)
+                        );
+                        
+                        if (distance < 200) {
+                            opacityValue = 1 - (distance / 200);
+                            ctx.strokeStyle = `rgba(0, 255, 0, ${opacityValue * 0.8})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(mouse.x, mouse.y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                connect();
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                init();
+            });
+
+            window.addEventListener('mousemove', (event) => {
+                mouse.x = event.clientX;
+                mouse.y = event.clientY;
+            });
+            
+            window.addEventListener('mouseout', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            resizeCanvas();
+            init();
+            animate();
+        }
+    </script>
+</body>
+</html>
